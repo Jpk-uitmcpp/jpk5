@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=1024">
+    <title>Hebahan Maklumat Kolej</title>
+    <link rel="icon" type="image/png" href="assets/icon_jpk.png"> <!-- Favicon Link -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            overflow-x: hidden;
+        }
+
+        /* Styles for header */
+        .schedule-header {
+            background-color: #782982;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            width: 100%;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .content {
+            margin-top: 80px; /* To account for the fixed header height */
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .announcement-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            margin-bottom: 20px;
+            text-align: left;
+            position: relative;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            overflow: hidden;
+            max-height: 150px; /* Set a max-height to enable scrolling */
+            overflow-y: auto; /* Enable vertical scrolling */
+            white-space: pre-wrap; /* Preserve formatting including line breaks */
+        }
+
+        .announcement-container.expanded {
+            max-height: 500px;
+        }
+
+        .announcement-container.collapsed {
+            max-height: 150px;
+        }
+
+        .announcement-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .announcement-date {
+            font-size: 14px;
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .announcement-content {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Styles for date, time, and day */
+        .datetime-container {
+            text-align: right;
+            font-size: 16px;
+            color: #333;
+            padding: 20px;
+            width: 100%;
+            box-sizing: border-box; /* Ensure padding doesn't affect width calculation */
+            position: absolute;
+            top: 80px; /* Align with the header height and content margin */
+            right: 0;
+        }
+
+        #currentDate, #currentTime {
+            display: block; /* Display each on a new line */
+        }
+
+        #currentDate {
+            font-weight: bold;
+        }
+
+        #currentTime {
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .home-button {
+            position: absolute; /* Fixes the button in the viewport */
+            top: 10px;
+            left: 10px;
+            background-color: #782982;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            font-weight: bold;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: background-color 0.3s;
+            z-index: 1000; /* Ensures the button is on top of other content */
+        }
+
+        .home-button:hover {
+            background-color: #5a1f63;
+        }
+
+        h2 {
+            text-align: center;
+            color: #782982;
+            margin-top: 190px;
+            margin-bottom: -5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="schedule-header">
+     HEBAHAN MAKLUMAT/INFO KOLEJ
+    <!-- Home Button -->
+   <!-- <a href="menu.php" class="home-button">Home</a> -->
+</div>
+
+<h2>INFO/MEMO SEMASA KOLEJ UiTMCPP</h2>
+
+<div class="content">
+    <!-- Container to display announcements -->
+    <div id="announcementContainer"></div>
+</div>
+
+<div class="datetime-container">
+    <span id="currentDate"></span>
+    <span id="currentTime"></span>
+</div>
+
+
+
+<script>
+    // Month names in Malay
+    const monthNames = [
+        'JANUARI', 'FEBRUARI', 'MAC', 'APRIL', 'MEI', 'JUN', 'JULAI', 'OGOS',
+        'SEPTEMBER', 'OKTOBER', 'NOVEMBER', 'DISEMBER'
+    ];
+
+    // Function to format the date
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        const day = date.getDate();
+        const month = monthNames[date.getMonth()];
+        const year = date.getFullYear();
+        return `${day} ${month} ${year}`;
+    }
+
+    // Manually added announcements (hard-coded)
+const announcements = [
+    {
+        // MEMO 1
+        title: 'PENGUMPULAN MAKLUMAT BAGI RESIDEN BERJAYA PERMOHONAN KOLEJ SESI OKTOBER - FEBRUARI 2024/2025',
+        date: '2024-09-29',  // The date of the announcement
+        // MEMO MULA DISINI, JPK DIBENARKAN EDIT BAHAGIAN SINI SAHAJA //
+        content: `PENGUMPULAN MAKLUMAT BAGI RESIDEN BERJAYA PERMOHONAN KOLEJ SESI OKTOBER - FEBRUARI 2024/2025
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Assalamualaikum, Salam Sejahtera, dan Salam UiTM di Hatiku,
+
+Pihak URHP telah menyediakan Google Form bagi residen kolej yang berjaya permohonan kolej bagi sesi Oktober - Februari 2024/25 untuk mengisi maklumat berkaitan nombor telefon waris dan maklumat kesihatan pelajar . 
+
+Residen yang berjaya permohonan kolej DIWAJIBKAN untuk mengisi link Google Form yang berikut;
+
+<a href="https://forms.gle/9t8irqR1aLwT7Pe38" target="_blank">https://forms.gle/9t8irqR1aLwT7Pe38</a>
+
+Sekian, terima kasih.
+
+“RESIDEN KOMPETEN, BERPRESTIJ ELEGAN"
+
+JAWATANKUASA PERWAKILAN KOLEJ & NON-RESIDEN 
+UiTM CAWANGAN PULAU PINANG 
+KAMPUS PERMATANG PAUH`
+    },
+
+    {
+        // MEMO 2
+        title: 'PEMAKLUMAN TARIKH PENGAMBILAN SEMULA BARANG DARI STOR SIMPANAN PELAJAR',
+        date: '2024-09-29',
+        // MEMO MULA DISINI, JPK DIBENARKAN EDIT BAHAGIAN SINI SAHAJA //
+        content: `PEMAKLUMAN TARIKH PENGAMBILAN SEMULA BARANG DARI STOR SIMPANAN PELAJAR
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Assalamualaikum wbt, Salam Sejahtera dan Salam UiTM Di Hatiku.
+
+Berikut merupakan tarikh dan masa yang telah ditetapkan bagi pengambilan semula barang di dalam stor simpanan pelajar.
+
+📌 TARIKH: 06 OKTOBER 2024 (AHAD)
+📌 MASA: 9.00 PM - 11.00 PM
+📌 TEMPAT: STOR - STOR SIMPANAN PELAJAR
+
+Semua pelajar diminta untuk mematuhi tarikh dan waktu yang telah ditetapkan untuk mengambil semula barang. 
+
+Sila pastikan slip pendaftaran stor dibawa bersama semasa mengambil barang. Hanya barang dengan nombor siri yang sepadan dengan slip pendaftaran dibenarkan untuk dibawa keluar. 
+
+Diharapkan agar mahasiswa cakna dengan pemakluman ini.
+
+Sekian, terima kasih.
+
+“RESIDEN KOMPETEN, BERPRESTIJ ELEGAN"
+
+JAWATANKUASA PERWAKILAN KOLEJ & NON-RESIDEN
+UiTM CAWANGAN PULAU PINANG 
+KAMPUS PERMATANG PAUH`
+    },
+
+    {
+        //MEMO 3
+        title: 'PEMAKLUMAN TARIKH PENDAFTARAN KOLEJ KEDIAMAN BAGI PELAJAR LAMA & PELAJAR BAHARU PENERAPAN SESI OKTOBER 2024 - FEBRUARI 2024',
+        date: '2024-09-29',
+        // MEMO MULA DISINI, JPK DIBENARKAN EDIT BAHAGIAN SINI SAHAJA //
+        content: `PEMAKLUMAN TARIKH PENDAFTARAN KOLEJ KEDIAMAN BAGI PELAJAR LAMA & PELAJAR BAHARU PENERAPAN SESI OKTOBER 2024 - FEBRUARI 2024
+------------------------------------------------------------------------------------------------------------------------------------------
+
+Assalamualaikum wbt, Salam Sejahtera dan Salam UiTM Di Hatiku.
+
+Merujuk kepada perkara di atas, tarikh pendaftaran kolej kediaman bagi pelajar lama & pelajar baharu penerapan sesi Oktober 2024 - Februari 2024 adalah seperti berikut:
+
+⚜️TARIKH: 5 & 6 Oktober 2024
+⚜️MASA: 8.30 pagi - 4.30 petang
+⚜️LOKASI: Bangunan Kemudahan Kristal, Aras 3, UiTM Cawangan Pulau Pinang
+
+📌 Sila bawa bersama pen, Slip Berjaya Kolej dan Surat Tawaran (Pelajar Penerapan sahaja) 
+
+📌 Bagi pelajar yang mempunyai masalah kesihatan sila bawa bersama Surat Pengesahan Doktor.
+
+📌 Sila patuhi peraturan Sahsiah Rupa Diri (SRD) semasa pendaftaran kolej kediaman.
+
+Diharap agar mahasiswa cakna dengan pemakluman ini.
+
+Sekian, terima kasih.
+
+“RESIDEN KOMPETEN, BERPRESTIJ ELEGAN"
+
+JAWATANKUASA PERWAKILAN KOLEJ & NON-RESIDEN
+UiTM CAWANGAN PULAU PINANG 
+KAMPUS PERMATANG PAUH`
+    },
+
+// ADD ANNOUNCEMENT HERE //
+    //  {
+    //     title: 'Sukan Tahunan Kolej',
+    //     date: '2024-11-10',
+    //     content: 'Our annual sports event will be held on the 10th of November. Let’s participate and cheer for your teams!'
+    // } 
+];
+
+   // Function to load hardcoded announcements
+function loadAnnouncements() {
+    const announcementContainer = document.getElementById('announcementContainer');
+    announcementContainer.innerHTML = ''; // Clear the container
+
+    announcements.forEach((announcement) => {
+        const announcementElement = document.createElement('div');
+        announcementElement.className = 'announcement-container collapsed';
+
+        // Modify the title to include [JPKNR 2024/2025]
+        announcementElement.innerHTML = `
+            <div class="announcement-title">[JPKNR 2024/2025] ${announcement.title}</div>
+            <div class="announcement-date">${formatDate(announcement.date)}</div>
+            <div class="announcement-content">${announcement.content}</div>
+        `;
+
+        announcementContainer.appendChild(announcementElement);
+
+        // Event listener for clicking on the announcement to expand/collapse
+        announcementElement.addEventListener('click', () => {
+            if (announcementElement.classList.contains('collapsed')) {
+                announcementElement.classList.remove('collapsed');
+                announcementElement.classList.add('expanded');
+            } else {
+                announcementElement.classList.remove('expanded');
+                announcementElement.classList.add('collapsed');
+            }
+        });
+    });
+}
+
+    // Function to update the date and time
+    function updateDateTime() {
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const now = new Date();
+        const formattedDate = now.toLocaleDateString('en-MY', options);
+        const formattedTime = now.toLocaleTimeString('en-MY');
+
+        document.getElementById('currentDate').innerHTML = formattedDate;
+        document.getElementById('currentTime').innerHTML = formattedTime;
+    }
+
+    // Update time every second
+    setInterval(updateDateTime, 1000);
+    updateDateTime(); // Initial call
+
+    // Load announcements when the page loads
+    window.onload = loadAnnouncements;
+</script>
+
+</body>
+</html>
